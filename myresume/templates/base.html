@@ -2,27 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Resume Builder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Resume Builder{% endblock %}</title>
     {% load static %}
-    <link rel="stylesheet" type='text/css' href="{% static 'style.css' %}">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <nav>
-        <div class="Home">
-        <a href="{% url 'home' %}">Головна</a>
-        </div>
-        {% if user.is_authenticated %}
-        <div class="acc1">
-            <a href="{% url 'profile' %}">Профіль</a>
-            <a href="{% url 'logout' %}">Вихід з акаунту</a>
-        </div>
-        {% else %}
-        <div class="reg1">
-            <a href="{% url 'login' %}">Увійти в акаунт</a>
-            <a href="{% url 'register' %}">Зареєструватися</a>
-        </div>
-        {% endif %}
-    </nav>
-    {% block content %}{% endblock %}
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <!-- Логотип -->
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="Site Logo" width="40" height="40" class="d-inline-block align-text-top">
+                    Resume Builder
+                </a>
+
+                <!-- Кнопка для мобільного меню -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <!-- Меню -->
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'resume_list' %}"><i class="bi bi-list"></i> Список Резюме</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'resume_create' %}"><i class="bi bi-plus-circle"></i> Створити Резюме</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        {% if user.is_authenticated %}
+                            <!-- Мій профіль -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'profile' %}"><i class="bi bi-person-circle"></i> Мій Профіль</a>
+                            </li>
+                            <!-- Вийти -->
+                            <li class="nav-item">
+                                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-box-arrow-right"></i> Вийти</button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <!-- Увійти -->
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-outline-primary btn-sm" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Увійти</a>
+                            </li>
+                            <!-- Зареєструватися -->
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-outline-success btn-sm ms-2" href="{% url 'register' %}"><i class="bi bi-person-plus"></i> Зареєструватися</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mt-4">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-light text-center py-3 mt-4">
+        <p>&copy; {{ current_year }} Resume Builder. Усі права захищено.</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Icons (Bootstrap Icons CDN) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 </body>
 </html>

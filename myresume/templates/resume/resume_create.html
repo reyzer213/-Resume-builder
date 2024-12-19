@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-
 {% block content %}
 <div class="container mt-5">
-    <h2>Редагування профілю</h2>
+    <h2>Створити резюме</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
         <button type="submit" class="btn btn-success">Зберегти</button>
-        <a href="{% url 'profile' %}" class="btn btn-secondary">Скасувати</a>
+        <a href="{% url 'resume_list' %}" class="btn btn-secondary">Скасувати</a>
     </form>
 </div>
 {% endblock %}

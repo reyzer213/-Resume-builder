@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Список резюме</h1>
+    <div class="row">
+        {% for resume in resumes %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ resume.title }}</h5>
+                    <p class="card-text">{{ resume.description|truncatewords:20 }}</p>
+                    <p class="card-text">
+                        <small class="text-muted">Автор: {{ resume.user.username }}</small>
+                    </p>
+                    <a href="{% url 'resume_detail' resume.pk %}" class="btn btn-primary">Переглянути</a>
+                    
+                    {% if resume.user == user %}
+                    <a href="{% url 'resume_update' resume.id %}" class="btn btn-warning">Редагувати</a>
+                    <a href="{% url 'resume_delete' resume.id %}" class="btn btn-danger">Видалити</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>Немає резюме для відображення.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

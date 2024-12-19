@@ -1,22 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Профіль</title>
-</head>
-<body>
-    {% extends 'base.html' %}
+{% extends 'base.html' %}
 
-    {% block content %}
-      <h2>Профіль</h2>
-      <p>Username: {{ user.username }}</p>
-      <p>Email: {{ user.email }}</p>
-      <p>Bio: {{ user.profile.bio }}</p>
-      {% if user.profile.profile_image %}
-        <img src="{{ user.profile.profile_image.url }}" alt="Аватарка профілю">
-      {% endif %}
-      <a href="{% url 'edit_profile' %}">Редагувати профіль</a>
-    {% endblock %}
-</body>
-</html>
+{% block content %}
+<div class="container mt-5">
+    <h2>Ваш профіль</h2>
+    <p><strong>Ім'я користувача:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    {% if user.profile %}
+    <p><strong>Біографія:</strong> {{ user.profile.bio }}</p>
+    {% if user.profile.profile_image %}
+    <p><strong>Фото профілю:</strong></p>
+    <img src="{{ user.profile.profile_image.url }}" class="img-thumbnail" style="max-width: 200px;">
+    {% endif %}
+    {% endif %}
+    <a href="{% url 'edit_profile' %}" class="btn btn-warning">Редагувати профіль</a>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Вийти</button>
+    </form>
+</div>
+{% endblock %}

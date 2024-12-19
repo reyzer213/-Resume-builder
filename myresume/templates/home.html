@@ -1,17 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Resume Builder</title>
-</head>
-<body>
-    {% extends 'base.html' %}
+{% extends 'base.html' %}
 
-    {% block content %}
-      <h1>Welcome to the Resume Builder!</h1>
-      <p>Головна сторінка.</p>
-      <p><a href="{% url 'login' %}">Вхід</a> або <a href="{% url 'register' %}">Регестрація</a></p>
-    {% endblock %}
-</body>
-</html>
+{% block title %}Головна{% endblock %}
+
+{% block content %}
+  <section>
+      <h2>Ласкаво просимо до Resume Builder!</h2>
+      <p>Створіть своє професійне резюме за декілька хвилин.</p>
+      {% if not user.is_authenticated %}
+          <a href="{% url 'register' %}" class="btn">Зареєструватися зараз</a>
+          <a href="{% url 'login' %}" class="btn">Увійти</a>
+      {% endif %}
+  </section>
+  <section>
+      <h3>Що ми пропонуємо?</h3>
+      <div class="card">
+          <h4>Зручний конструктор</h4>
+          <p>Простий і зручний інструмент для створення резюме.</p>
+      </div>
+      <div class="card">
+          <h4>Професійний вигляд</h4>
+          <p>Резюме, яке вразить роботодавців.</p>
+      </div>
+  </section>
+{% endblock %}
+

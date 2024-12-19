@@ -1,21 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration</title>
-</head>
-<body>
-    {% extends 'base.html' %}
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
-    {% block content %}
-      <h2>Регестрація</h2>
-      <form method="post">
+{% block content %}
+<div class="container mt-5">
+    <h2>Реєстрація нового користувача</h2>
+    <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Регестрація</button>
-      </form>
-      <p>Вже є акаунт? <a href="{% url 'login' %}">Увійти тут</a></p>
-    {% endblock %}    
-</body>
-</html>
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Зареєструватися</button>
+        <a href="{% url 'login' %}" class="btn btn-link">Увійти</a>
+    </form>
+</div>
+{% endblock %}
