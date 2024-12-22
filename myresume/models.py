@@ -31,6 +31,7 @@ class Resume(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="resumes")
     title = models.CharField(max_length=100, help_text="Резюме на тему...")
     desire_pos = models.CharField(max_length=100, help_text="На яку посаду ви претендуєте?", null= True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='resumes')
     salary = models.DecimalField(
         max_digits=10, 
         decimal_places=2, 

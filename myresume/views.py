@@ -93,5 +93,5 @@ def edit_profile(request):
 
 @login_required
 def resume_list(request):
-    resumes = Resume.objects.filter(user=request.user)
-    return render(request, 'resume/resume_list.html', {'resumes': resumes})
+    resumes = Resume.objects.select_related('owner').all()  # Отримуємо всі резюме разом із власниками
+    return render(request, 'resume/resume_list.html', {'resumes': resumes, 'user': request.user})
