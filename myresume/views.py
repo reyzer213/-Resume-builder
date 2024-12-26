@@ -25,7 +25,7 @@ class ResumeDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):  # 
     def test_func(self):
         # Тільки власник резюме може переглядати його деталі
         resume = self.get_object()
-        return self.request.user == resume.user
+        return True
 
 
 class ResumeCreateView(LoginRequiredMixin, CreateView):
@@ -36,7 +36,7 @@ class ResumeCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         # Робить резюме власністю поточного користувача
-        form.instance.user = self.request.user
+        form.instance.owner = self.request.user
         return super().form_valid(form)
 
 
@@ -49,7 +49,7 @@ class ResumeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         # Тільки власник резюме може його редагувати
         resume = self.get_object()
-        return self.request.user == resume.user
+        return self.request.user == resume.owner
 
 
 class ResumeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -60,7 +60,7 @@ class ResumeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         # Тільки власник резюме може його видалити
         resume = self.get_object()
-        return self.request.user == resume.user
+        return self.request.user == resume.owner
 
 
 def register(request):
@@ -93,5 +93,5 @@ def edit_profile(request):
 
 @login_required
 def resume_list(request):
-    resumes = Resume.objects.filter(user=request.user)
-    return render(request, 'resume/resume_list.html', {'resumes': resumes})
+    resumes = Resume.objects.select_related('owner').all()  # Отримуємо всі резюме разом із власниками
+    return render(request, 'resume/resume_list.html', {'resumes': resumes, 'user': request.user})
