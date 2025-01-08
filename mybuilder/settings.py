@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-fp(arh3i_wv@%=p$ey1cs=y-v+gx=6-@m1elnh&c(2nmt@r6e3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com']
 
 
 # Application definition
@@ -41,8 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     "crispy_forms",
     "crispy_bootstrap5",
-    'cloudinary',
     'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -128,6 +129,12 @@ CLOUDINARY_STORAGE = "CLOUDINARY_URL=***"
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+
+cloudinary.config(
+    cloud_name = "*",
+    api_key = "*",
+    api_secret = "*"
+) 
 
 STATIC_URL = 'static/'
 STATIC_ROOT = '/static/'
